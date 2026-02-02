@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Recommender System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+    <style>
+
+        body {
+            background-color: #0b0b0b;
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(255,255,255,0.035), transparent 40%),
+                radial-gradient(circle at 85% 5%, rgba(255,0,0,0.06), transparent 35%);
+            font-family: "Inter", sans-serif;
+            color: #ffffff;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(6px);
+            padding: 14px 50px;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        .navbar-brand {
+            font-family: "Montserrat", sans-serif;
+            color: #e50914 !important;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: #e5e5e5 !important;
+            font-size: 15px;
+            margin-left: 22px;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #e50914 !important;
+        }
+
+        /* Page Title */
+        .page-title {
+            font-family: "Montserrat", sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin: 35px 0 19px;
+        }
+
+        /* Book Card */
+        .book-card {
+            width: 230px;
+            height: 330px;
+            background-color: #141414;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.75);
+            margin: auto;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 14px 36px rgba(229, 9, 20, 0.4);
+        }
+
+
+        .book-img {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            background-color: #0E0000;
+        }
+
+        /* Info */
+        .book-info {
+            padding: 8px 10px;
+        }
+
+        .book-title {
+
+            font-size: 15px;
+            font-weight: 610;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            margin top : 6px;
+            padding : 8px 4px 4px 4px;
+
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+
+        }
+
+        .book-meta {
+
+            padding : 6px 5px 5px 5px;
+            font-size: 15.5px;
+            color: #b3b3b3;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+        }
+
+        .col-md-3 {
+            margin-bottom: 24px;
+        }
+        /* Contact Modal */
+        .contact-modal {
+        background-color: #141414;
+        color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    }
+
+    .contact-modal .modal-title {
+        font-family:"Poppins", sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #e50914;
+    }
+
+    .contact-line {
+        font-size: 15px;
+        color: #b3b3b3;
+        margin-bottom: 12px;
+    }
+
+    .contact-line span {
+        color: #ffffff;
+    }
+    .intro-text {
+    max-width: 700px;
+    font-size: 15px;
+    color: #b3b3b3;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+    </style>
+</head>
+
+<body>
+
+
+
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content contact-modal">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Contact</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="contact-line">Email: <span>shrijita7ghosh@email.com</span></p>
+        <p class="contact-line">Call: <span>I do not use phone</span></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <a class="navbar-brand" href="/">BOOKFLIX</a>
+    <div class="ms-auto">
+        <a class="nav-link d-inline" href="/">Home</a>
+        <a class="nav-link d-inline" href="/recommend">Recommend</a>
+        <a class="nav-link d-inline" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
+    Contact
+</a>
+
+    </div>
+</nav>
+
+<!-- Content -->
+<div class="container-fluid px-5">
+    <h1 class="page-title">Top 50 Books</h1>
+    <p class="intro-text">
+    Because life’s too short for bad book recommendations.
+    </p>
+
+    <div class="row">
+        {% for i in range(book_name|length) %}
+        <div class="col-md-3 d-flex justify-content-center">
+            <div class="book-card">
+                <img src="{{ image[i] }}" class="book-img" alt="Book Cover">
+                <div class="book-info">
+                    <div class="book-title">{{ book_name[i] }}</div>
+                    <div class="book-meta">{{ author[i] }}</div>
+                    <div class="book-meta">⭐ {{ "%.1f"|format(rating[i]) }} | 👥 {{ vote[i] }}</div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
+
